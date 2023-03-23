@@ -1,9 +1,12 @@
 import api from '../api';
 
-export default api.injectEndpoints({
+const projects = api.injectEndpoints({
    endpoints: builder => ({
       getProjects: builder.query({
          query: () => '/projects',
       }),
    }),
 });
+
+export default projects;
+export const { useGetProjectsQuery } = projects;
