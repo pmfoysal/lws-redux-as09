@@ -1,12 +1,12 @@
 export default function Form() {
    return (
-      <div class='justify-center mb-10 space-y-2 md:flex md:space-y-0'>
-         <form class='space-y-6'>
-            <div class='fieldContainer'>
+      <div className='justify-center mb-10 space-y-2 md:flex md:space-y-0'>
+         <form className='space-y-6'>
+            <div className='fieldContainer'>
                <label for='lws-taskName'>Task Name</label>
                <input type='text' name='taskName' id='lws-taskName' required placeholder='Implement RTK Query' />
             </div>
-            <div class='fieldContainer'>
+            <div className='fieldContainer'>
                <label>Assign To</label>
                <select name='teamMember' id='lws-teamMember' required>
                   <option value='' hidden selected>
@@ -21,7 +21,7 @@ export default function Form() {
                   <option>Arif Almas</option>
                </select>
             </div>
-            <div class='fieldContainer'>
+            <div className='fieldContainer'>
                <label for='lws-projectName'>Project Name</label>
                <select id='lws-projectName' name='projectName' required>
                   <option value='' hidden selected>
@@ -35,12 +35,12 @@ export default function Form() {
                   <option>Job Finder</option>
                </select>
             </div>
-            <div class='fieldContainer'>
+            <div className='fieldContainer'>
                <label for='lws-deadline'>Deadline</label>
                <input type='date' name='deadline' id='lws-deadline' required />
             </div>
-            <div class='text-right'>
-               <button type='submit' class='lws-submit'>
+            <div className='text-right'>
+               <button type='submit' className='lws-submit'>
                   Save
                </button>
             </div>

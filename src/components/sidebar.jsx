@@ -3,7 +3,7 @@ import Projects from './projects';
 
 export default function Sidebar() {
    return (
-      <div class='sidebar'>
+      <div className='sidebar'>
          <Projects />
          <Members />
       </div>
