@@ -16,3 +16,23 @@
 .search-input::placeholder {
    font-weight: 400;
 }
+
+.lws-submit {
+   height: 45px;
+   padding: 0 1rem;
+   --tw-bg-opacity: 1;
+   background-color: rgb(79 70 229 / var(--tw-bg-opacity));
+   --tw-text-opacity: 1;
+   color: rgb(255 255 255 / var(--tw-text-opacity));
+   border-radius: 7px;
+}
+
+.lws-submit:hover:not(:disabled) {
+   opacity: 0.85;
+}
+
+.lws-submit:disabled {
+   opacity: 0.5;
+   cursor: default;
+   pointer-events: none;
+}
