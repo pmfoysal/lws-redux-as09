@@ -18,7 +18,7 @@ const tasks = api.injectEndpoints({
             const result = await queryFulfilled;
             dispatch(
                tasks.util.updateQueryData('getTasks', undefined, draft => {
-                  draft.push(result);
+                  draft.push(result.data);
                })
             );
          },

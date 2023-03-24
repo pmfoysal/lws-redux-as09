@@ -6,7 +6,8 @@ export default function Task({ data }) {
    const navigate = useNavigate();
    const [editTask] = useEditTaskMutation();
    const [deleteTask] = useDeleteTaskMutation();
-   const { id, taskName, status, deadline, project, teamMember } = data;
+   console.log(data);
+   const { id, taskName, status, deadline, project = {}, teamMember = {} } = data;
 
    function handleStatus(event) {
       const value = event.target.value;
