@@ -14,6 +14,14 @@ const tasks = api.injectEndpoints({
             method: 'POST',
             body: data,
          }),
+         onQueryStarted: async (args, { queryFulfilled, dispatch }) => {
+            const result = await queryFulfilled;
+            dispatch(
+               tasks.util.updateQueryData('getTasks', undefined, draft => {
+                  draft.push(result);
+               })
+            );
+         },
       }),
       editTask: builder.mutation({
          query: ({ id, ...data }) => ({
@@ -21,12 +29,36 @@ const tasks = api.injectEndpoints({
             method: 'PATCH',
             body: data,
          }),
+         onQueryStarted: async (args, { queryFulfilled, dispatch }) => {
+            await queryFulfilled;
+            dispatch(
+               tasks.util.updateQueryData('getTasks', undefined, draft => {
+                  draft.forEach(item => {
+                     if (item.id === String(args.id)) {
+                        item = { ...item, ...args };
+                     }
+                  });
+               })
+            );
+         },
       }),
       deleteTask: builder.mutation({
          query: id => ({
             url: `/tasks/${id}`,
             method: 'DELETE',
          }),
+         onQueryStarted: async (args, { queryFulfilled, dispatch }) => {
+            const result = dispatch(
+               tasks.util.updateQueryData('getTasks', undefined, draft => {
+                  draft = draft.filter(item => item.id !== String(args));
+               })
+            );
+            try {
+               await queryFulfilled;
+            } catch (err) {
+               result.undo();
+            }
+         },
       }),
    }),
 });
