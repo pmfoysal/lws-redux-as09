@@ -1,10 +1,17 @@
-import { Link } from 'react-router-dom';
 import { setSearch } from '../redux/features/others';
 import { useDispatch, useSelector } from 'react-redux';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 
 export default function Header() {
    const dispatch = useDispatch();
+   const navigate = useNavigate();
+   const { pathname } = useLocation();
    const search = useSelector(store => store.others.search);
+
+   function handleSearch(e) {
+      dispatch(setSearch(e.target.value));
+      if (pathname !== '/') navigate('/');
+   }
 
    return (
       <nav className='container relative py-3'>
@@ -20,7 +27,7 @@ export default function Header() {
                   className='search-input'
                   id='lws-searchTask'
                   value={search}
-                  onChange={e => dispatch(setSearch(e.target.value))}
+                  onChange={e => handleSearch(e)}
                />
             </div>
          </div>
