@@ -34,8 +34,8 @@ const tasks = api.injectEndpoints({
             dispatch(
                tasks.util.updateQueryData('getTasks', undefined, draft => {
                   draft.forEach(item => {
-                     if (item.id === String(args.id)) {
-                        item = { ...item, ...args };
+                     if (item.id === args.id) {
+                        Object.assign(item, args);
                      }
                   });
                })

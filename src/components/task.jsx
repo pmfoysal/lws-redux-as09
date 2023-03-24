@@ -1,9 +1,18 @@
 import getDate from '../utilities/getDate';
 import { useNavigate } from 'react-router-dom';
+import { useEditTaskMutation } from '../redux/features/tasks';
 
 export default function Task({ data }) {
    const navigate = useNavigate();
+   const [editTask] = useEditTaskMutation();
    const { id, taskName, status, deadline, project, teamMember } = data;
+
+   function handleStatus(event) {
+      const value = event.target.value;
+      if (value !== status) {
+         editTask({ id, status: value });
+      }
+   }
 
    return (
       <div class='lws-task'>
@@ -54,7 +63,7 @@ export default function Task({ data }) {
                   </svg>
                </button>
             )}
-            <select class='lws-status' value={status}>
+            <select class='lws-status' value={status} onChange={handleStatus}>
                <option value='pending'>Pending</option>
                <option value='inProgress'>In Progress</option>
                <option value='completed'>Completed</option>
