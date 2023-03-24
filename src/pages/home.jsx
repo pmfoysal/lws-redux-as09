@@ -1,8 +1,11 @@
 import Task from '../components/task';
 import { Link } from 'react-router-dom';
 import Sidebar from '../components/sidebar';
+import { useGetTasksQuery } from '../redux/features/tasks';
 
 export default function Home() {
+   const { data: tasks } = useGetTasksQuery();
+
    return (
       <div class='container relative'>
          <Sidebar />
@@ -24,11 +27,9 @@ export default function Home() {
                   </Link>
                </div>
                <div class='lws-task-list'>
-                  <Task />
-                  <Task />
-                  <Task />
-                  <Task />
-                  <Task />
+                  {tasks?.map((item, index) => (
+                     <Task key={`task-${index}`} data={item} />
+                  ))}
                </div>
             </main>
          </div>
