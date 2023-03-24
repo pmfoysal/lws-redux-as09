@@ -1,6 +1,8 @@
 import getDate from '../utilities/getDate';
+import { useNavigate } from 'react-router-dom';
 
 export default function Task({ data }) {
+   const navigate = useNavigate();
    const { id, taskName, status, deadline, project, teamMember } = data;
 
    return (
@@ -35,7 +37,7 @@ export default function Task({ data }) {
                   </svg>
                </button>
             ) : (
-               <button class='lws-edit'>
+               <button class='lws-edit' onClick={() => navigate(`/${id}/edit`)}>
                   <svg
                      xmlns='http://www.w3.org/2000/svg'
                      fill='none'
