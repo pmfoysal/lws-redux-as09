@@ -23,13 +23,8 @@ export default function Projects() {
          <h3 className='text-xl font-bold'>Projects</h3>
          <div className='mt-3 space-y-4'>
             {projects?.map((item, index) => (
-               <div key={`project-${index}`} className='checkbox-container'>
-                  <input
-                     type='checkbox'
-                     className={item.colorClass}
-                     checked={selected.includes(item.id)}
-                     onChange={() => dispatch(setProject(item.id))}
-                  />
+               <div key={`project-${index}`} className='checkbox-container' onClick={() => dispatch(setProject(item.id))}>
+                  <input type='checkbox' className={item.colorClass} checked={selected.includes(item.id)} readOnly />
                   <p className={`label ${selected.includes(item.id) ? '' : ''}`}>{item.projectName}</p>
                </div>
             ))}

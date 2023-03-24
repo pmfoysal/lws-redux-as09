@@ -1,3 +1,7 @@
+.label {
+   user-select: none;
+}
+
 .label.active {
    font-weight: 500;
    --tw-text-opacity: 1;
