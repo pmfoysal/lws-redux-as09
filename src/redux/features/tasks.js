@@ -40,6 +40,11 @@ const tasks = api.injectEndpoints({
                   });
                })
             );
+            dispatch(
+               tasks.util.updateQueryData('getTask', String(args.id), draft => {
+                  Object.assign(draft, args);
+               })
+            );
          },
       }),
       deleteTask: builder.mutation({

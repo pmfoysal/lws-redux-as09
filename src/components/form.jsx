@@ -1,8 +1,9 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import isSameObject from '../utilities/isSameObject';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useGetMembersQuery } from '../redux/features/members';
 import { useGetProjectsQuery } from '../redux/features/projects';
-import { useAddTaskMutation, useEditTaskMutation } from '../redux/features/tasks';
+import { useAddTaskMutation, useEditTaskMutation, useGetTaskQuery } from '../redux/features/tasks';
 
 export default function Form({ mode }) {
    const navigate = useNavigate();
@@ -16,21 +17,37 @@ export default function Form({ mode }) {
    const projectsApi = useGetProjectsQuery();
    const [addTask, addApi] = useAddTaskMutation();
    const [editTask, editApi] = useEditTaskMutation();
+   const taskApi = useGetTaskQuery(taskId, { skip: !taskId });
 
    function handleSubmit(event) {
       event.preventDefault();
       const data = {
          taskName,
          deadline,
-         project: projectsApi.data?.find(item => String(item.id) === project),
-         teamMember: membersApi.data?.find(item => String(item.id) === teamMember),
+         status: 'pending',
+         project: projectsApi.data?.find(item => item.id === Number(project)),
+         teamMember: membersApi.data?.find(item => item.id === Number(teamMember)),
       };
       if (mode === 'add') addTask(data).then(() => navigate('/'));
       else {
-         data.id = Number(taskId);
-         editTask(data);
+         if (taskApi.data?.id) {
+            data.id = taskApi.data.id;
+            data.status = taskApi.data.status;
+            if (isSameObject(data, taskApi.data)) {
+               navigate('/');
+            } else editTask(data).then(() => navigate('/'));
+         }
       }
    }
+
+   useEffect(() => {
+      if (taskApi.data?.id) {
+         setProject(taskApi.data.project.id);
+         setTaskName(taskApi.data.taskName);
+         setDeadline(taskApi.data.deadline);
+         setTeamMember(taskApi.data.teamMember.id);
+      }
+   }, [taskApi.data]);
 
    return (
       <div className='justify-center mb-10 space-y-2 md:flex md:space-y-0'>
@@ -100,7 +117,9 @@ export default function Form({ mode }) {
                <button
                   type='submit'
                   className='lws-submit'
-                  disabled={addApi.isLoading || editApi.isLoading || projectsApi.isLoading || membersApi.isLoading}
+                  disabled={
+                     addApi.isLoading || editApi.isLoading || projectsApi.isLoading || membersApi.isLoading || taskApi.isLoading
+                  }
                >
                   Save
                </button>
