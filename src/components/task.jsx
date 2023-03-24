@@ -1,10 +1,11 @@
 import getDate from '../utilities/getDate';
 import { useNavigate } from 'react-router-dom';
-import { useEditTaskMutation } from '../redux/features/tasks';
+import { useDeleteTaskMutation, useEditTaskMutation } from '../redux/features/tasks';
 
 export default function Task({ data }) {
    const navigate = useNavigate();
    const [editTask] = useEditTaskMutation();
+   const [deleteTask] = useDeleteTaskMutation();
    const { id, taskName, status, deadline, project, teamMember } = data;
 
    function handleStatus(event) {
@@ -12,6 +13,10 @@ export default function Task({ data }) {
       if (value !== status) {
          editTask({ id, status: value });
       }
+   }
+
+   function handleDelete() {
+      deleteTask(id);
    }
 
    return (
@@ -30,7 +35,7 @@ export default function Task({ data }) {
                <p class='lws-task-assignedOn'>{teamMember.name}</p>
             </div>
             {status === 'completed' ? (
-               <button class='lws-delete'>
+               <button class='lws-delete' onClick={handleDelete}>
                   <svg
                      fill='none'
                      viewBox='0 0 24 24'

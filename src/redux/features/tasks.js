@@ -50,7 +50,8 @@ const tasks = api.injectEndpoints({
          onQueryStarted: async (args, { queryFulfilled, dispatch }) => {
             const result = dispatch(
                tasks.util.updateQueryData('getTasks', undefined, draft => {
-                  draft = draft.filter(item => item.id !== String(args));
+                  const index = draft.findIndex(item => item.id === args);
+                  draft.splice(index, 1);
                })
             );
             try {
