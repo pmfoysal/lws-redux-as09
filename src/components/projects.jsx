@@ -1,32 +1,38 @@
+import { useEffect } from 'react';
+import { setProject } from '../redux/features/others';
+import { useDispatch, useSelector } from 'react-redux';
+import { useGetProjectsQuery } from '../redux/features/projects';
+
 export default function Projects() {
+   const dispatch = useDispatch();
+   const { data: projects } = useGetProjectsQuery();
+   const selected = useSelector(store => store.others.projects);
+
+   useEffect(() => {
+      if (projects?.length) {
+         projects.forEach(item => {
+            if (!selected.includes(item.id)) {
+               dispatch(setProject(item.id));
+            }
+         });
+      }
+   }, [projects]);
+
    return (
       <div>
          <h3 className='text-xl font-bold'>Projects</h3>
          <div className='mt-3 space-y-4'>
-            <div className='checkbox-container'>
-               <input type='checkbox' className='color-scoreboard' />
-               <p className='label'>Scoreboard</p>
-            </div>
-            <div className='checkbox-container'>
-               <input type='checkbox' className='color-flight' />
-               <p className='label'>Flight Booking</p>
-            </div>
-            <div className='checkbox-container'>
-               <input type='checkbox' className='color-productCart' />
-               <p className='label'>Product Cart</p>
-            </div>
-            <div className='checkbox-container'>
-               <input type='checkbox' className='color-bookstore' />
-               <p className='label'>Book Store</p>
-            </div>
-            <div className='checkbox-container'>
-               <input type='checkbox' className='color-blog' />
-               <p className='label'>Blog Application</p>
-            </div>
-            <div className='checkbox-container'>
-               <input type='checkbox' className='color-jobFinder' />
-               <p className='label'>Job Finder</p>
-            </div>
+            {projects?.map((item, index) => (
+               <div key={`project-${index}`} className='checkbox-container'>
+                  <input
+                     type='checkbox'
+                     className={item.colorClass}
+                     checked={selected.includes(item.id)}
+                     onChange={() => dispatch(setProject(item.id))}
+                  />
+                  <p className={`label ${selected.includes(item.id) ? '' : ''}`}>{item.projectName}</p>
+               </div>
+            ))}
          </div>
       </div>
    );

@@ -1,3 +1,4 @@
+import isArray from './isArray';
 import isObject from './isObject';
 
 export default function sortObject(object) {
@@ -6,6 +7,8 @@ export default function sortObject(object) {
       .reduce((temp, key) => {
          if (isObject(object[key])) {
             temp[key] = sortObject(object[key]);
+         } else if (isArray(object[key])) {
+            temp[key] = object[key].sort();
          } else {
             temp[key] = object[key];
          }
